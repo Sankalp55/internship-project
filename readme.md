@@ -6,8 +6,6 @@ The **Internship Project** is a Django-based web application designed to manage 
 
 ## Project Structure
 
-The project is organized as follows:
-
 ```
 internship_project/
 ├── home/
@@ -37,99 +35,103 @@ internship_project/
 * **Procfile**: Specifies commands for deploying on platforms like Heroku.
 * **requirements.txt**: Lists Python dependencies.
 
-## Setup Instructions
+## Project Setup Instructions
 
 ### Prerequisites
 
-Ensure you have the following installed:
-
 * Python 3.8+
 * pip
-* Docker (optional, for containerized setup)
+* Docker (optional)
 
 ### Installation
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/Sankalp55/internship-project.git
-   cd internship-project/internship_project
-   ```
+```bash
+git clone https://github.com/Sankalp55/internship-project.git
+cd internship-project/internship_project
+```
 
-2. Create a virtual environment:
+2. Create and activate a virtual environment:
 
-   ```bash
-   python -m venv venv
-   ```
+```bash
+python -m venv venv
+# Windows
+.\venv\Scripts\activate
+# macOS/Linux
+source venv/bin/activate
+```
 
-3. Activate the virtual environment:
+3. Install dependencies:
 
-   * On Windows:
+```bash
+pip install -r requirements.txt
+```
 
-     ```bash
-     .\venv\Scripts\activate
-     ```
+4. Apply migrations:
 
-   * On macOS/Linux:
+```bash
+python manage.py migrate
+```
 
-     ```bash
-     source venv/bin/activate
-     ```
+5. Create superuser:
 
-4. Install dependencies:
+```bash
+python manage.py createsuperuser
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+6. Run server:
 
-5. Apply migrations:
+```bash
+python manage.py runserver
+```
 
-   ```bash
-   python manage.py migrate
-   ```
-
-6. Create a superuser (for admin access):
-
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-7. Run the development server:
-
-   ```bash
-   python manage.py runserver
-   ```
-
-   Access the application at `http://127.0.0.1:8000/`.
+Access at `http://127.0.0.1:8000/`.
 
 ### Docker Setup (Optional)
 
-To run the application using Docker:
+```bash
+docker build -t internship-project .
+docker run -p 8000:8000 internship-project
+```
 
-1. Build the Docker image:
+## API Usage Guide
 
-   ```bash
-   docker build -t internship-project .
-   ```
+### Base URL
 
-2. Run the Docker container:
+```
+http://127.0.0.1:8000/api/
+```
 
-   ```bash
-   docker run -p 8000:8000 internship-project
-   ```
+### Endpoints
 
-   The application will be accessible at `http://localhost:8000/`.
+* **Users**
 
-## Deployment
+  * `GET /api/users/` - List all users
+  * `POST /api/users/` - Create a new user
+  * `GET /api/users/<id>/` - Get user details
+  * `PUT /api/users/<id>/` - Update user
+  * `DELETE /api/users/<id>/` - Delete user
 
-For deploying the application, ensure you have a platform like Heroku or Google Cloud set up. The `Procfile` and `app.yaml` are configured for such platforms.
+* **Tasks**
 
-## Contributing
+  * `GET /api/tasks/` - List all tasks
+  * `POST /api/tasks/` - Create a task
+  * `GET /api/tasks/<id>/` - Get task details
+  * `PUT /api/tasks/<id>/` - Update task
+  * `DELETE /api/tasks/<id>/` - Delete task
 
-Contributions are welcome! Please fork the repository, create a new branch, and submit a pull request with your proposed changes.
+### Sample Requests
 
+```bash
+# Create user
+curl -X POST http://127.0.0.1:8000/api/users/ -H "Content-Type: application/json" -d '{"username":"john","email":"john@example.com"}'
 
-## Bonus Points
+# Get tasks
+curl http://127.0.0.1:8000/api/tasks/
+```
 
-* Containerize the application with Docker.
-* Integrate Redis + Celery for background tasks (e.g., send a welcome email after registration).
+## Bonus Tasks Completed
+
+* Containerized the application using Docker.
+* Integrated Redis + Celery for background tasks (e.g., sending a welcome email after registration).
