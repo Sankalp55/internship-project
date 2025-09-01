@@ -1,0 +1,6 @@
+runtime: python39  # or python310
+entrypoint: gunicorn -b :$PORT main:app  # main.py and your Flask app object is 'app'
+
+# Optional: environment variables
+env_variables:
+  ENV: "production"

@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - celery
+    environment:
+      - EMAIL_HOST_USER=sankalpttyagi@gmail.com
+      - EMAIL_HOST_PASSWORD=plgsznkzctbihbkj
+
+  redis:
+    image: redis:6-alpine
+
+  celery:
+    build:
+      context: .
+    command: celery -A internship_project worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    environment:
+      - EMAIL_HOST_USER=sankalpttyagi@gmail.com
+      - EMAIL_HOST_PASSWORD=plgsznkzctbihbkj
