@@ -54,7 +54,7 @@ ROOT_URLCONF = 'internship_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],   # ✅ templates folder
+        'DIRS': [BASE_DIR / "templates"],   
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -162,6 +162,6 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "sankalpttyagi@gmail.com"   # ✅ tumhara Gmail
-EMAIL_HOST_PASSWORD = "plgsznkzctbihbkj"      # ✅ Gmail App Password
+EMAIL_HOST_USER = "sankalpttyagi@gmail.com"  
+EMAIL_HOST_PASSWORD = "plgsznkzctbihbkj"     
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
