@@ -22,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         validated_data.pop('password2')
         password = validated_data.pop('password')
         user = User(**validated_data)
-        user.set_password(password)  # uses PBKDF2 by default (secure)
+        user.set_password(password) 
         user.save()
         return user
 

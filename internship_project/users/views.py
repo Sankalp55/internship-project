@@ -20,13 +20,13 @@ class RegisterView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         
-        # ✅ Improved error handling
+       
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         user = serializer.save()
 
-        # ✅ Send welcome email asynchronously using Celery
+       
         send_welcome_email.delay(user.email)
 
         return Response(
@@ -50,7 +50,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
 
-        # ✅ Prevent email from being updated
+       
         data = request.data.copy()
         data.pop("email", None)
 

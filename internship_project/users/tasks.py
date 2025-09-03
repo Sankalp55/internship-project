@@ -12,6 +12,6 @@ def send_welcome_email(user_email):
         subject,
         message,
         from_email,
-        [user_email],   # 👈 FIX: recipient_list must be a list
+        [user_email],   
         fail_silently=False,
     )
