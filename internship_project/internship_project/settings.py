@@ -17,25 +17,28 @@ ALLOWED_HOSTS = ["*", ".elasticbeanstalk.com"]
 # INSTALLED APPS
 # -------------------------
 INSTALLED_APPS = [
+    # Django core apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Local apps
     'home',
-    
+    'users',
+    'tasks',
 
     # Third-party apps
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',
-
-    # Local apps
-    'users',
-    'tasks',
 ]
 
+# -------------------------
+# MIDDLEWARE
+# -------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -117,7 +120,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # -------------------------
 # CUSTOM USER MODEL
 # -------------------------
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.CustomUser"
 
 # -------------------------
 # DRF & JWT CONFIG
@@ -125,6 +128,9 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
 }
 
@@ -158,6 +164,11 @@ CELERY_RESULT_BACKEND = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 # -------------------------
 # EMAIL CONFIG
 # -------------------------
+# EMAIL_BACKEND = os.getenv(
+#     "EMAIL_BACKEND",
+#     "django.core.mail.backends.console.EmailBackend" if DEBUG else "django.core.mail.backends.smtp.EmailBackend"
+# )
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587

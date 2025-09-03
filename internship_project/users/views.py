@@ -1,10 +1,9 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from django.contrib.auth import get_user_model
-from .serializers import RegisterSerializer, UserSerializer
 from rest_framework.response import Response
-from rest_framework import status
-from users.tasks import send_welcome_email
 from django.shortcuts import render
+from .serializers import RegisterSerializer, UserSerializer
+from users.tasks import send_welcome_email
 
 def home(request):
     return render(request, "index.html")
@@ -20,14 +19,21 @@ class RegisterView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        
+        # ✅ Improved error handling
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         user = serializer.save()
 
-        # ✅ Send welcome email after user is created
+        # ✅ Send welcome email asynchronously using Celery
         send_welcome_email.delay(user.email)
 
         return Response(
-            {"message": "User registered successfully!"},
+            {
+                "message": "User registered successfully!",
+                "user": UserSerializer(user).data
+            },
             status=status.HTTP_201_CREATED
         )
 
@@ -39,6 +45,20 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
-    def put(self, request, *args, **kwargs):
-        # allow changing name and username (not email)
-        return self.update(request, *args, **kwargs)
+    def update(self, request, *args, **kwargs):
+        """Allow user to update only profile fields (like full_name)."""
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+
+        # ✅ Prevent email from being updated
+        data = request.data.copy()
+        data.pop("email", None)
+
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        self.perform_update(serializer)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
