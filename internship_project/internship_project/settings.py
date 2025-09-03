@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'home',
     'users',
     'tasks',
+    'notifications',
 
     # Third-party apps
     'rest_framework',

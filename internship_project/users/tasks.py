@@ -4,10 +4,14 @@ from django.conf import settings
 
 @shared_task
 def send_welcome_email(user_email):
+    subject = "Welcome!"
+    message = "Thank you for registering 🎉"
+    from_email = settings.DEFAULT_FROM_EMAIL
+
     send_mail(
-        "Welcome!",
-        "Thank you for registering 🎉",
-        settings.DEFAULT_FROM_EMAIL,   # ✅ Gmail ID used here
-        [user_email],
+        subject,
+        message,
+        from_email,
+        [user_email],   # 👈 FIX: recipient_list must be a list
         fail_silently=False,
     )
