@@ -30,4 +30,4 @@ services:
       - redis
     environment:
       - EMAIL_HOST_USER=sankalpttyagi@gmail.com
-      - EMAIL_HOST_PASSWORD=plgsznkzctbihbkj
+      - EMAIL_HOST_PASSWORD=Enter_Your_Password
