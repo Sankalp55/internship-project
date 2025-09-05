@@ -1,6 +1,6 @@
 # Internship Project
 
-A Django web application for managing internships with simple user, task, and notification management.
+A Django web application for internship with simple user, task, and notification management.
 
 <p align="center">
   <img alt="Django" src="https://img.shields.io/badge/Django-Framework-informational">
