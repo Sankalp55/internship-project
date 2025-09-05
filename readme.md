@@ -10,7 +10,7 @@ A Django web application for internship with simple user, task, and notification
 
 ## Overview
 
-This project provides a clean starting point for an internship management portal.  
+This project provides a clean starting point for an management portal.  
 It includes:
 
 - **Users app** for authentication and profile handling  
