@@ -5,7 +5,7 @@ A Django web application for managing internships with simple user, task, and no
 <p align="center">
   <img alt="Django" src="https://img.shields.io/badge/Django-Framework-informational">
   <img alt="Python" src="https://img.shields.io/badge/Python-3.8%2B-blue">
-  <img alt="License" src="https://img.shields.io/badge/License-MIT-green">
+  
 </p>
 
 ## Overview
